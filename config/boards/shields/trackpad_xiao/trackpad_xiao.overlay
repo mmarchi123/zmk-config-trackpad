@@ -25,24 +25,6 @@
     trackpad_listener {
         compatible = "zmk,input-listener";
         device = <&trackpad>;
-        
-        // Input processors for coordinate transformation
-        input-processors = <&trackpad_transform>;
-    };
-    
-    // Input processor for coordinate transformation
-    trackpad_transform: trackpad_transform {
-        compatible = "zmk,input-processor-transform";
-        #input-processor-cells = <0>;
-        
-        // Adjust these based on your trackpad orientation
-        x-invert;
-        // y-invert;
-        // xy-swap;
-        
-        // Scale factors (optional)
-        scale-multiplier = <1>;
-        scale-divisor = <1>;
     };
 };
 
