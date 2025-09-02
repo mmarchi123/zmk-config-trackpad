@@ -1,0 +1,56 @@
+#include <dt-bindings/zmk/matrix_transform.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &default_transform;
+    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <1>;
+        rows = <1>;
+        map = <RC(0,0)>;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-mock";
+        columns = <1>;
+        rows = <1>;
+        exit-after;
+        events = <>;
+    };
+};
+
+// SPI configuration
+&spi1 {
+    compatible = "nordic,nrf-spi";
+    status = "okay";
+    
+    sck-pin = <8>;   // P0.08 (D8) - SCLK
+    mosi-pin = <10>; // P0.10 (D10) - MOSI  
+    miso-pin = <9>;  // P0.09 (D9) - MISO
+    cs-gpios = <&gpio0 7 GPIO_ACTIVE_LOW>; // P0.07 (D7) - CS
+    
+    trackpad: trackpad@0 {
+        compatible = "cirque,pinnacle";
+        reg = <0>; // SPI device 0
+        spi-max-frequency = <1000000>; // 1MHz
+        
+        // Pin assignments
+        dr-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>; // P0.03 (D3) - Data ready
+        
+        // Trackpad settings
+        sensitivity = <0x08>;
+        sleep-timeout = <10000>;
+        
+        // Enable features
+        tap-to-click;
+        scroll-divisor = <4>;
+        
+        // SPI specific settings
+        rotate = <90>; // Adjust if trackpad orientation is wrong
+        invert-x;      // Uncomment if X movement is inverted
+        // invert-y;   // Uncomment if Y movement is inverted
+    };
+};

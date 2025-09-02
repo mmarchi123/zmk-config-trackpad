@@ -20,7 +20,4 @@
 ---
 include:
   - board: seeeduino_xiao_ble
-    shield: tester_xiao
-include:
-  - board: seeeduino_xiao_ble
-    shield: tester_xiao
+    shield: trackpad_xiao
