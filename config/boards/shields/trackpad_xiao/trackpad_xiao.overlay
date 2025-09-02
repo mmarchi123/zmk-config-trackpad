@@ -20,6 +20,20 @@
         exit-after;
         events = <>;
     };
+
+    // Input listener for trackpad events
+    trackpad_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackpad>;
+        
+        xy-swap;
+        x-invert;
+        // y-invert;
+        
+        // Scale factor for movement (optional)
+        scale-multiplier = <1>;
+        scale-divisor = <1>;
+    };
 };
 
 // Pin control configuration for SPI
@@ -51,27 +65,18 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     
-    cs-gpios = <&gpio0 7 GPIO_ACTIVE_LOW>; // P0.07 (D7) - CS
+    cs-gpios = <&gpio0 7 GPIO_ACTIVE_LOW>;
     
-    trackpad: trackpad@0 {
+    trackpad: glidepoint@0 {
         compatible = "cirque,pinnacle";
-        reg = <0>; // SPI device 0
-        spi-max-frequency = <1000000>; // 1MHz
+        reg = <0>;
+        spi-max-frequency = <1000000>;
         
-        // Pin assignments
-        dr-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>; // P0.03 (D3) - Data ready
+        dr-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
         
-        // Trackpad settings
-        sensitivity = <0x08>;
-        sleep-timeout = <10000>;
-        
-        // Enable features
-        tap-to-click;
-        scroll-divisor = <4>;
-        
-        // SPI specific settings
-        rotate = <90>; // Adjust if trackpad orientation is wrong
-        invert-x;      // Uncomment if X movement is inverted
-        // invert-y;   // Uncomment if Y movement is inverted
+        // Updated properties based on Pete's module
+        sensitivity = "4x";  // Use string format: "1x", "2x", "4x" 
+        sleep;               // Enable sleep mode
+        no-taps;            // Disable tap detection initially
     };
 };
