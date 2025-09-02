@@ -21,3 +21,5 @@
 include:
   - board: seeeduino_xiao_ble
     shield: trackpad_xiao
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
