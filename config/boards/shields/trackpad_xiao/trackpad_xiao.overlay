@@ -1,16 +1,6 @@
-#include <dt-bindings/zmk/matrix_transform.h>
-
 / {
     chosen {
         zmk,kscan = &kscan0;
-        zmk,matrix_transform = &default_transform;
-    };
-
-    default_transform: keymap_transform_0 {
-        compatible = "zmk,matrix-transform";
-        columns = <1>;
-        rows = <1>;
-        map = <RC(0,0)>;
     };
 
     kscan0: kscan {
@@ -19,56 +9,5 @@
         rows = <1>;
         exit-after;
         events = <>;
-    };
-
-    // Input listener for trackpad events
-    trackpad_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackpad>;
-    };
-};
-
-// Pin control configuration for SPI
-&pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 10)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 9)>;
-        };
-    };
-
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 10)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 9)>;
-            low-power-enable;
-        };
-    };
-};
-
-// SPI configuration
-&spi1 {
-    compatible = "nordic,nrf-spim";
-    status = "okay";
-    
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
-    pinctrl-names = "default", "sleep";
-    
-    cs-gpios = <&gpio0 7 GPIO_ACTIVE_LOW>;
-    
-    trackpad: glidepoint@0 {
-        compatible = "cirque,pinnacle";
-        reg = <0>;
-        spi-max-frequency = <1000000>;
-        
-        dr-gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
-        
-        // Updated properties based on Pete's module
-        sensitivity = "4x";  // Use string format: "1x", "2x", "4x" 
-        sleep;               // Enable sleep mode
-        no-taps;            // Disable tap detection initially
     };
 };
